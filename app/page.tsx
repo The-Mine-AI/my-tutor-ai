@@ -2,7 +2,7 @@
 
 import { Box } from "@mui/material";
 import React from "react";
-import Login from "@/components/Login";
+import Login from "@/app/components/Login";
 import Image from "next/image";
 
 
