@@ -6,7 +6,7 @@ import '@fontsource/roboto/700.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'animate.css';
 
-import AppBar from '@/app/components/AppBar';
+import AppBar from '@/components/AppBar';
 
 export const metadata = {
   title: 'Create Next App',
