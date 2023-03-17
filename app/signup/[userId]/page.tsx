@@ -127,15 +127,22 @@ function Page() {
     <Box className="flex justify-center" style={{ height: "100vh" }}>
     <StepWizard className="mt-60">
       { Steps.map((step, index) => <Step 
-        key={index} 
-        stepName={step} 
-        name={name} 
+        key={index}
+        stepName={step}
+        name={name}
         curriculum={curriculum}
         grade={grade}
         language={language}
         subject={subject}
-        setVal={index === 0 ? setName : index === 1 ? setCurriculum : index === 2 ? setGrade : index === 3 ? setLanguage : setSubject}
-        />) }
+        setVal={index === 0 ? setName : index === 1 ? setCurriculum : index === 2 ? setGrade : index === 3 ? setLanguage : setSubject} isActive={false} currentStep={0} totalSteps={0} 
+        firstStep={() => null} 
+        lastStep={() => null} 
+        nextStep={() => null} 
+        previousStep={() => null} 
+        goToStep={() => null} 
+        goToNamedStep={() => null}        
+        />) 
+      }
     </StepWizard>
     </Box>
   )
