@@ -42,8 +42,6 @@ function Chat({ grade, curriculum, subject, book, name, language }: TutorProps) 
         }
     }, [selectedBook, chapter, topic])
 
-    console.log(messages[0]?.content)
-
     function handleError<T>(err: T) {
         setLoading(false)
         setQuery('')
@@ -64,8 +62,7 @@ function Chat({ grade, curriculum, subject, book, name, language }: TutorProps) 
         // setLoading(true)
 
         setLoadingSuggestions(true)
-        console.log(selectedBook, chapter, topic)
-        if (!selectedBook || !chapter || !topic) return
+        if (!chapter || !topic) return
         generate(
             [
                 { role: "system", content: generateSuggestionsPromptForSystemPrompt(

@@ -2,7 +2,7 @@
 
 import { BooksPrompt, ChaptersPromptFromBook, ChaptersPromptNoBook, TopicsPromptFromBook, TopicsPromptNoBook } from '@/constants/system-prompts'
 import { generate } from '@/utils/gpt'
-import { InputLabel, Select, MenuItem, FormControl, Box } from '@mui/material'
+import { InputLabel, Select, MenuItem, FormControl, Box, Modal, Button } from '@mui/material'
 import TreeView from '@mui/lab/TreeView';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -18,6 +18,7 @@ function InteractiveCurriculum({ grade, curriculum, subject, book }: TutorContex
     const [chapters, setChapters] = React.useState<string[]>([])
     const [syllabus, setSyllabus] = React.useState<Record<string, string[]>>({})
     const [loading, setLoading] = React.useState<boolean>(false)
+    const [booksModelOpen, setBooksModelOpen] = React.useState<boolean>(false)
     
     const { 
         book: selectedBook, chapter, topic,
@@ -116,23 +117,49 @@ function InteractiveCurriculum({ grade, curriculum, subject, book }: TutorContex
             overflowY: "scroll"
         }}>
         <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-            <InputLabel id="select-book">Book</InputLabel>
-            <Select
-                labelId="select-book"
-                id="select-book"
-                value={selectedBook}
-                label="Book"
-                onChange={event => setBook(event.target.value as string)}
+            <button onClick={() => setBooksModelOpen(true)} disabled={loading}>Generate Curriculum</button>
+            <Modal
+                open={booksModelOpen}
+                onClose={() => {
+                    genBooks()
+                    setBooksModelOpen(false)
+                }}
             >
-                {books.map((book, i) => (
-                    <MenuItem key={i} value={book}>{book}</MenuItem>
-                ))}
-                {/* <MenuItem value="Our Pasts - III">Our Pasts - III</MenuItem> */}
-                {/* <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem> */}
-            </Select>
-            <button onClick={genBooks} disabled={loading}>Load</button>
-            <button onClick={genChapters} disabled={loading}>Generate</button>
+                <Box sx={{ 
+                    // width: 400,
+                    position: 'absolute' as 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    bgcolor: 'background.paper',
+                    boxShadow: 24,
+                    p: 4,
+                }}>
+                    <h2 id="book-modal-title">Select a Book (Optional)</h2>
+                    <p id="book-modal-description"></p>
+                    <Select
+                        labelId="select-book"
+                        id="select-book"
+                        value={selectedBook}
+                        label="Book"
+                        onChange={event => setBook(event.target.value as string)}
+                    >
+                        {books.map((book, i) => (
+                            <MenuItem key={i} value={book}>{book}</MenuItem>
+                        ))}
+                    </Select>
+                    <Button onClick={genBooks} disabled={loading}>Load Books</Button><br/>
+                    <Button sx={{
+                        position: 'relative',
+                        right: 0,
+                    }}
+                        onClick={genChapters} 
+                        disabled={loading}
+                    >
+                        Generate
+                    </Button>
+                </Box>
+            </Modal>
       </FormControl>
         <TreeView
             aria-label="file system navigator"
