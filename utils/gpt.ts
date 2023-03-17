@@ -1,4 +1,5 @@
 import { ChatCompletionRequestMessage } from "openai"
+//@ts-ignore ts-nocheck
 import { SSE } from 'sse.js'
 
 export function generateStream<T = any>(
